@@ -183,6 +183,9 @@ namespace dawn_native { namespace d3d12 {
         D3D12_RANGE readRange = {start, start + count};
         char* data = nullptr;
         ASSERT_SUCCESS(mResource->Map(0, &readRange, reinterpret_cast<void**>(&data)));
+        if (serial == 1) {
+            OnMapCommandSerialFinished(serial, data + start, true);
+        }
 
         // There is no need to transition the resource to a new state: D3D12 seems to make the CPU
         // writes available on queue submission.
